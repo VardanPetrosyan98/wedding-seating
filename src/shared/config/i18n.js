@@ -17,7 +17,7 @@ export const translations = {
     searchAriaLabel: "Հյուրի անունով որոնում",
     seatsMap: "Սեղանների սխեմա",
     tableGuestsTitle: "Ընտրված սեղանի հյուրերը",
-    selectTableHint: "Սեղմեք սեղանի կլոր կետի վրա",
+    selectTableHint: "Սեղմեք սեղանի շրջանակի վրա",
     selectedTableGuests: "հյուրերի ցուցակ",
     guestsCount: "Հյուրեր",
     tableAriaLabel: "Ցույց տալ հյուրերին",

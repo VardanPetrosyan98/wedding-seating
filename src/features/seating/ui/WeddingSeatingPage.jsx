@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Button, Segmented, Spin } from "antd";
-import {
-  SoundOutlined,
-  AudioMutedOutlined,
-} from "@ant-design/icons";
+import { SoundOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { SeatingSection } from "./SeatingSection";
 import { WelcomeSection } from "./WelcomeSection";
 import { useSeating } from "../model/useSeating";
@@ -11,8 +8,12 @@ import { useWelcomeEffects } from "../model/useWelcomeEffects";
 import { useI18n } from "../model/useI18n";
 import { languages } from "../../../shared/config/i18n";
 import restaurantImage from "../../../shared/assets/images/restaurant.png";
+import churchImage from "../../../shared/assets/images/charch.svg";
 export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
   const [isMusicMuted, setIsMusicMuted] = useState(false);
+  const [welcomeBackgroundImage, setWelcomeBackgroundImage] =
+    useState(restaurantImage);
+  const [backgroundSize, setBackgroundSize] = useState("90% 90%");
   const { language, t, handleLanguageChange } = useI18n();
   const {
     isSeatingVisible,
@@ -41,6 +42,21 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
     setIsMusicMuted((currentValue) => !currentValue);
   };
 
+  useEffect(() => {
+    const handleBackgroundImageByViewport = () => {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      setWelcomeBackgroundImage(isLandscape ? restaurantImage : churchImage);
+      setBackgroundSize(isLandscape ? "90% 90%" : "cover");
+    };
+
+    handleBackgroundImageByViewport();
+    window.addEventListener("resize", handleBackgroundImageByViewport);
+
+    return () => {
+      window.removeEventListener("resize", handleBackgroundImageByViewport);
+    };
+  }, []);
+
   const languageOptions = Object.entries(languages).map(([value, label]) => ({
     value,
     label,
@@ -56,7 +72,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
   if (isLoading) {
     return (
       <main
-        className="mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-4 py-8 md:px-8"
+        className="mx-auto flex h-screen w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
         style={localizedFontStyle}
       >
         <Spin size="large" tip={t.loading} />
@@ -67,7 +83,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
   if (errorMessage) {
     return (
       <main
-        className="mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-4 py-8 md:px-8"
+        className="mx-auto flex h-screen w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
         style={localizedFontStyle}
       >
         <Alert
@@ -83,7 +99,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
 
   return (
     <main
-      className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-8 md:px-8"
+      className="mx-auto flex h-screen w-full max-w-7xl flex-col overflow-hidden px-4 py-4 md:px-8"
       style={localizedFontStyle}
     >
       <div className="fixed right-4 top-4 z-30 flex items-center gap-2 rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur">
@@ -126,8 +142,8 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
           /> */}
           <div
             style={{
-              backgroundImage: `url(${restaurantImage})`,
-              backgroundSize: "90% 90%",
+              backgroundImage: `url(${welcomeBackgroundImage})`,
+              backgroundSize: backgroundSize,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, Input, Typography } from "antd";
 import {
   SearchOutlined,
@@ -7,6 +7,7 @@ import {
   CheckCircleOutlined,
   UserOutlined,
   QuestionOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
@@ -28,7 +29,7 @@ export const SeatingSection = ({
   onSearchFocus,
   onSearchBlur,
 }) => {
-  const tableMapScrollContainerRef = useRef(null);
+  const [isMobileGuestsOpen, setIsMobileGuestsOpen] = useState(false);
   const tableCardRefs = useRef({});
 
   useEffect(() => {
@@ -49,13 +50,56 @@ export const SeatingSection = ({
     });
   }, [highlightedTableId, selectedTableId]);
 
+  useEffect(() => {
+    if (!selectedTableId) {
+      return;
+    }
+
+    setIsMobileGuestsOpen(true);
+  }, [selectedTableId]);
+
+  const guestsPanelContent = (
+    <>
+      {/* <Title level={3} className="!mb-0 !text-lg !text-slate-900">
+        <span className="inline-flex items-center gap-2">
+          <TeamOutlined className="text-rose-500" />
+          {t.tableGuestsTitle}
+        </span>
+      </Title> */}
+      <Text className="mt-2 block text-sm text-slate-500">
+        {selectedTable
+          ? `${t.table} ${selectedTable.label}: ${t.selectedTableGuests}`
+          : t.selectTableHint}
+      </Text>
+
+      <ul className="mt-4 space-y-2">
+        {selectedTable?.guests.map((guestName) => {
+          const isSelectedGuest = selectedGuestName === guestName;
+          return (
+            <li
+              key={guestName}
+              className={
+                isSelectedGuest
+                  ? "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 underline decoration-2 decoration-red-500 underline-offset-4"
+                  : "rounded-lg border border-rose-100 bg-rose-50 px-3 py-2 text-sm"
+              }
+            >
+              <UserOutlined className="mr-2 text-rose-500" />
+              {guestName}
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+
   return (
-    <section className="w-full">
+    <section className="flex h-full w-full flex-col overflow-hidden">
       <header className="flex flex-col gap-4 rounded-3xl bg-white p-6 shadow-lg md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-rose-400">
+          {/* <p className="text-sm uppercase tracking-[0.2em] text-rose-400">
             {t.guestsSeating}
-          </p>
+          </p> */}
           <Title level={2} className="!mb-0 !text-2xl !text-slate-900">
             <span className="inline-flex items-center gap-2">
               <SearchOutlined className="text-rose-500" />
@@ -101,18 +145,24 @@ export const SeatingSection = ({
         </div>
       </header>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <section className="rounded-3xl bg-white p-5 shadow-lg">
-          <Title level={3} className="!mb-4 !text-lg !text-slate-900">
-            <span className="inline-flex items-center gap-2">
-              <TableOutlined className="text-rose-500" />
-              {t.seatsMap}
-            </span>
-          </Title>
-          <div
-            ref={tableMapScrollContainerRef}
-            className="max-h-[70vh] overflow-y-auto p-1"
-          >
+      <div className="mt-6 grid min-h-0 flex-1 gap-6 lg:grid-cols-[2fr_1fr]">
+        <section className="flex min-h-0 flex-col rounded-3xl bg-white p-5 shadow-lg">
+          <div className="mb-4 flex flex-col items-center justify-between gap-3">
+            <Title level={3} className="!mb-0 !text-lg !text-slate-900">
+              <span className="inline-flex items-center gap-2">
+                <TableOutlined className="text-rose-500" />
+                {t.seatsMap}
+              </span>
+            </Title>
+            <Button
+              className="lg:!hidden"
+              icon={<TeamOutlined />}
+              onClick={() => setIsMobileGuestsOpen(true)}
+            >
+              {t.tableGuestsTitle}
+            </Button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto p-1">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {tables.map((table) => {
                 const isHighlighted = highlightedTableId === table.id;
@@ -162,39 +212,45 @@ export const SeatingSection = ({
             </div>
           </div>
         </section>
-        <aside className="rounded-3xl bg-white p-5 shadow-lg">
+        <aside className="hidden min-h-0 overflow-hidden rounded-3xl bg-white p-5 shadow-lg lg:block">
+          {guestsPanelContent}
+        </aside>
+      </div>
+
+      <button
+        type="button"
+        aria-label="Close guests menu"
+        onClick={() => setIsMobileGuestsOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/25 transition-opacity duration-300 lg:hidden ${
+          isMobileGuestsOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      />
+      <aside
+        className={`fixed left-0 top-0 z-50 h-full w-[85%] max-w-sm overflow-y-auto bg-white p-5 shadow-2xl transition-transform duration-300 lg:hidden ${
+          isMobileGuestsOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="mb-3 flex items-center justify-between">
+          {/* <span className="text-base font-semibold text-slate-900">
+            {t.tableGuestsTitle}
+          </span> */}
           <Title level={3} className="!mb-0 !text-lg !text-slate-900">
             <span className="inline-flex items-center gap-2">
               <TeamOutlined className="text-rose-500" />
               {t.tableGuestsTitle}
             </span>
           </Title>
-          <Text className="mt-2 block text-sm text-slate-500">
-            {selectedTable
-              ? `${t.table} ${selectedTable.label}: ${t.selectedTableGuests}`
-              : t.selectTableHint}
-          </Text>
-
-          <ul className="mt-4 space-y-2">
-            {selectedTable?.guests.map((guestName) => {
-              const isSelectedGuest = selectedGuestName === guestName;
-              return (
-                <li
-                  key={guestName}
-                  className={
-                    isSelectedGuest
-                      ? "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 underline decoration-2 decoration-red-500 underline-offset-4"
-                      : "rounded-lg border border-rose-100 bg-rose-50 px-3 py-2 text-sm"
-                  }
-                >
-                  <UserOutlined className="mr-2 text-rose-500" />
-                  {guestName}
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
-      </div>
+          <Button
+            type="text"
+            aria-label="Close guests menu"
+            icon={<CloseOutlined />}
+            onClick={() => setIsMobileGuestsOpen(false)}
+          />
+        </div>
+        {guestsPanelContent}
+      </aside>
     </section>
   );
 };
