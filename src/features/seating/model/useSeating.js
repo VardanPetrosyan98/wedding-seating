@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { normalizeText } from "../../../shared/lib/normalizeText";
 
-export const useSeating = ({ tables }) => {
+export const useSeating = ({ tables, t }) => {
   const [isSeatingVisible, setIsSeatingVisible] = useState(false);
   const [query, setQuery] = useState("");
   const [highlightedTableId, setHighlightedTableId] = useState(null);
@@ -17,7 +17,9 @@ export const useSeating = ({ tables }) => {
 
     return tables.flatMap((table) =>
       table.guests
-        .filter((guestName) => normalizeText(guestName).includes(normalizedQuery))
+        .filter((guestName) =>
+          normalizeText(guestName).includes(normalizedQuery),
+        )
         .map((guestName) => ({
           tableId: table.id,
           tableLabel: table.label,
@@ -33,20 +35,20 @@ export const useSeating = ({ tables }) => {
 
   const searchMessage = useMemo(() => {
     if (!query) {
-      return "Vvedite imya gostya dlya poiska stolika";
+      return t.searchEmpty;
     }
 
     if (!matches.length) {
-      return "Gost ne nayden. Proverte napisanie imeni.";
+      return t.searchNotFound;
     }
 
     if (highlightedTableId) {
       const table = tables.find((item) => item.id === highlightedTableId);
-      return `${table?.label || "Stol"} podsvechen krasnym.`;
+      return `${table?.label || t.table} ${t.tableHighlighted}`;
     }
 
-    return `Naydeno sovpadeniy: ${matches.length}. Vyberite gostya iz spiska.`;
-  }, [highlightedTableId, matches.length, query, tables]);
+    return `${t.matchesFound}: ${matches.length}. ${t.chooseGuest}`;
+  }, [highlightedTableId, matches.length, query, t, tables]);
 
   const handleShowSeating = () => {
     setIsSeatingVisible(true);

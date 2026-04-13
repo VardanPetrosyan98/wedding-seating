@@ -1,24 +1,44 @@
 import { Button, Typography } from "antd";
-
+import { HeartFilled, SearchOutlined } from "@ant-design/icons";
+import restaurantImage from "../../../shared/assets/images/restaurant.png";
 const { Title, Paragraph } = Typography;
-
-export const WelcomeSection = ({ onShowSeating }) => {
+export const WelcomeSection = ({ onShowSeating, t }) => {
   return (
-    <section className="relative z-10 mx-auto my-auto flex w-full max-w-2xl flex-col items-center rounded-3xl bg-white p-8 text-center shadow-xl">
-      <p className="text-sm uppercase tracking-[0.25em] text-rose-400">Wedding Day</p>
-      <Title level={1} className="!mt-4 !mb-0 !text-3xl !text-slate-900 md:!text-4xl">
-        Добро пожаловать, дорогие гости!
+    <section
+      className="relative z-10 mx-auto my-auto flex w-full max-w-2xl flex-col items-center overflow-hidden rounded-3xl p-8 text-center shadow-xl backdrop-blur-sm"
+      style={{
+        backgroundImage: `url(${restaurantImage})`,
+        backgroundSize: "contain",
+        backgroundPosition: "left",
+      }}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-white/85" />
+      <p className="relative text-sm uppercase tracking-[0.25em] text-rose-400">
+        {t.weddingDay}
+      </p>
+      <p className="relative text-[12px] uppercase tracking-[0.25em] text-rose-400">
+        26.04.26
+      </p>
+      <Title
+        level={1}
+        className="relative !mt-4 !mb-0 !text-3xl !text-slate-900 md:!text-4xl"
+      >
+        <span className="inline-flex items-center gap-2">
+          {/* <HeartFilled className="text-rose-500" /> */}
+          {t.welcomeTitle}
+        </span>
       </Title>
-      <Paragraph className="!mt-4 !mb-0 !text-base !text-slate-600 md:!text-lg">
-        Нажмите на кнопку, чтобы найти свое место и посмотреть рассадку столиков.
+      <Paragraph className="relative !mt-4 !mb-0 !text-base !text-slate-600 md:!text-lg">
+        {t.welcomeDescription}
       </Paragraph>
       <Button
         type="primary"
         size="large"
-        className="!mt-8 !h-auto !rounded-full !bg-rose-500 !px-7 !py-3 !font-semibold hover:!bg-rose-600"
+        className="relative !mt-8 !h-auto !rounded-full !bg-rose-500 !px-7 !py-3 !font-semibold hover:!bg-rose-600"
         onClick={onShowSeating}
+        icon={<SearchOutlined />}
       >
-        Look мои места
+        {t.showSeatsButton}
       </Button>
     </section>
   );
