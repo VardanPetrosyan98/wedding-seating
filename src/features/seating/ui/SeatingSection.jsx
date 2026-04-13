@@ -116,7 +116,6 @@ export const SeatingSection = ({
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {tables.map((table) => {
                 const isHighlighted = highlightedTableId === table.id;
-                const isSelectedTable = selectedTableId === table.id;
                 return (
                   <div
                     key={table.id}

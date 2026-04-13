@@ -1,5 +1,5 @@
 import { Button, Typography } from "antd";
-import { HeartFilled, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import restaurantImage from "../../../shared/assets/images/restaurant.png";
 const { Title, Paragraph } = Typography;
 export const WelcomeSection = ({ onShowSeating, t }) => {

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Alert, Button, Segmented, Spin } from "antd";
 import {
-  GlobalOutlined,
   SoundOutlined,
   AudioMutedOutlined,
 } from "@ant-design/icons";
