@@ -7,7 +7,7 @@ export const App = () => {
 
   return (
     <AntdProvider>
-      <div className="h-screen overflow-hidden bg-rose-50 text-slate-800">
+      <div className="h-[100dvh] overflow-hidden bg-rose-50 text-slate-800">
         <WeddingSeatingPage tables={tables} isLoading={isLoading} errorMessage={errorMessage} />
       </div>
     </AntdProvider>

@@ -72,7 +72,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
   if (isLoading) {
     return (
       <main
-        className="mx-auto flex h-screen w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
+        className="mx-auto flex h-[100dvh] w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
         style={localizedFontStyle}
       >
         <Spin size="large" tip={t.loading} />
@@ -83,7 +83,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
   if (errorMessage) {
     return (
       <main
-        className="mx-auto flex h-screen w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
+        className="mx-auto flex h-[100dvh] w-full max-w-7xl items-center justify-center overflow-hidden px-4 py-4 md:px-8"
         style={localizedFontStyle}
       >
         <Alert
@@ -99,7 +99,7 @@ export const WeddingSeatingPage = ({ tables, isLoading, errorMessage }) => {
 
   return (
     <main
-      className="mx-auto flex h-screen w-full max-w-7xl flex-col overflow-hidden px-4 py-4 md:px-8"
+      className="mx-auto flex h-[100dvh] w-full max-w-7xl flex-col overflow-hidden px-4 py-4 md:px-8"
       style={localizedFontStyle}
     >
       <div className="fixed right-4 top-4 z-30 flex items-center gap-2 rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur">

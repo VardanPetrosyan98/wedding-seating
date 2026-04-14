@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
+import canonInDMajorMusic from "../../../shared/assets/audio/canon-in-d-major.mp3";
 
 const hearts = ["❤", "♡", "💗"];
-const musicUrl =
-  "https://cdn7.sefon.pro/prev/RyWNZ1PUlul5KtTFFAIJWg/1776126077/16/Johann%20Pachelbel%20-%20Canon%20In%20D%20Major%20%28192kbps%29.mp3";
+const musicUrl = canonInDMajorMusic;
 
 export const useWelcomeEffects = ({ enabled, isMuted }) => {
   const backgroundRef = useRef(null);

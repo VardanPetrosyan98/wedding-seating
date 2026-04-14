@@ -95,7 +95,7 @@ export const SeatingSection = ({
 
   return (
     <section className="flex h-full w-full flex-col overflow-hidden">
-      <header className="flex flex-col gap-4 rounded-3xl bg-white p-6 shadow-lg md:flex-row md:items-end md:justify-between">
+      <header className="flex flex-col gap-4 rounded-3xl bg-white p-6  md:flex-row md:items-end md:justify-between">
         <div>
           {/* <p className="text-sm uppercase tracking-[0.2em] text-rose-400">
             {t.guestsSeating}
@@ -146,7 +146,7 @@ export const SeatingSection = ({
       </header>
 
       <div className="mt-6 grid min-h-0 flex-1 gap-6 lg:grid-cols-[2fr_1fr]">
-        <section className="flex min-h-0 flex-col rounded-3xl bg-white p-5 shadow-lg">
+        <section className="flex min-h-0 flex-col rounded-3xl bg-white p-5 ">
           <div className="mb-4 flex flex-col items-center justify-between gap-3">
             <Title level={3} className="!mb-0 !text-lg !text-slate-900">
               <span className="inline-flex items-center gap-2">
@@ -212,7 +212,7 @@ export const SeatingSection = ({
             </div>
           </div>
         </section>
-        <aside className="hidden min-h-0 overflow-hidden rounded-3xl bg-white p-5 shadow-lg lg:block">
+        <aside className="hidden min-h-0 overflow-hidden rounded-3xl bg-white p-5  lg:block">
           {guestsPanelContent}
         </aside>
       </div>
@@ -228,7 +228,7 @@ export const SeatingSection = ({
         }`}
       />
       <aside
-        className={`fixed left-0 top-0 z-50 h-full w-[85%] max-w-sm overflow-y-auto bg-white p-5 shadow-2xl transition-transform duration-300 lg:hidden ${
+        className={`fixed left-0 top-0 z-50 h-full w-[85%] max-w-sm overflow-y-auto bg-white p-5 shadow-2xl transition-transform duration-300 lg:hidden rounded-r-2xl ${
           isMobileGuestsOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
